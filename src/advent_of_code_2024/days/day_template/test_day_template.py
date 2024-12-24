@@ -1,6 +1,6 @@
 import pytest
 
-from advent_of_code_2023.days.day<DAY_NUMBER>.solution import DaySolution # type: ignore
+from advent_of_code_2024.days.day<DAY_NUMBER>.solution import DaySolution # type: ignore
 
 
 @pytest.fixture

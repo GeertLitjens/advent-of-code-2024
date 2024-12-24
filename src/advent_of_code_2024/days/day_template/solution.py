@@ -3,11 +3,11 @@
 
 import numpy as np
 
-from advent_of_code_2023.utils import ParsedAoCData, Solution
+from advent_of_code_2024.utils import ParsedAoCData, Solution
 
 
 class DaySolution(Solution):
-    def __init__(self: 'DaySolution', day: int = <DAY_NUMBER>, year: int = 2023) -> None:
+    def __init__(self: 'DaySolution', day: int = <DAY_NUMBER>, year: int = 2024) -> None:
         super().__init__(day, year)
 
     def _parse_data(self: "DaySolution", input_data: str) -> ParsedAoCData:

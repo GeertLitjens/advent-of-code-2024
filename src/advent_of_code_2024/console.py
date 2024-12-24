@@ -18,7 +18,7 @@ from .utils import ColorLogger
 @click.pass_context
 def cli(ctx: click.Context, debug: bool) -> None:
     """
-    Solution of the Advent of Code 2023 as implemented by Geert Litjens in Python
+    Solution of the Advent of Code 2024 as implemented by Geert Litjens in Python
     """
     logging.setLoggerClass(ColorLogger)
     logger = logging.getLogger("aoclogger")
@@ -79,9 +79,7 @@ def run(
     elif os.path.exists(".aoc_token"):
         os.environ["AOC_TOKEN"] = Path(".aoc_token").read_text()
 
-    day_fldrs = [
-        x for x in os.listdir(Path(__file__).parent / "days") if "temp" not in x
-    ]
+    day_fldrs = [x for x in os.listdir(Path(__file__).parent / "days") if "temp" not in x]
     if not days:
         days = sorted([x.replace("day", "") for x in day_fldrs])
 
@@ -92,7 +90,7 @@ def run(
             part = day_nr[-1]
             day_nr = day_nr[:-1]
         day_module = importlib.import_module(
-            "advent_of_code_2023.days.day" + str(day_nr).zfill(2)[:2] + ".solution"
+            "advent_of_code_2024.days.day" + str(day_nr).zfill(2)[:2] + ".solution"
         )
         solution = day_module.DaySolution()
         if part:
@@ -127,12 +125,8 @@ def create(logger: logging.Logger, days: typing.List[int], overwrite: bool) -> N
         logger.info(f"Creating structure for day {day}")
         in_path = Path(__file__).parent / "days" / "day_template"
         out_path = Path(__file__).parent / "days" / f"day{int(day):02d}"
-        out_solution_path = (
-            Path(__file__).parent / "days" / f"day{day:02d}" / "solution.py"
-        )
-        out_test_path = (
-            Path(__file__).parent / "days" / f"day{day:02d}/test_day_template.py"
-        )
+        out_solution_path = Path(__file__).parent / "days" / f"day{day:02d}" / "solution.py"
+        out_test_path = Path(__file__).parent / "days" / f"day{day:02d}/test_day_template.py"
         test_path = Path(__file__).parent.parent.parent / f"tests/test_day{day:02d}.py"
         logger.debug(f"Input path {in_path}")
         logger.debug(f"Output path {out_path}")

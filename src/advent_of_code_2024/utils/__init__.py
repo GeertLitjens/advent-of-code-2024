@@ -46,7 +46,7 @@ class ColorLogger(logging.Logger):
 
 
 class Solution(ABC, Generic[ParsedAoCData]):
-    def __init__(self: "Solution", day: int = 1, year: int = 2023) -> None:
+    def __init__(self: "Solution", day: int = 1, year: int = 2024) -> None:
         init()
         self._data_dir = Path.home() / ".aoc" / str(year)
         if not self._data_dir.exists():
@@ -90,9 +90,7 @@ class Solution(ABC, Generic[ParsedAoCData]):
     def _solve_part2(self: "Solution", parsed_data: ParsedAoCData) -> str:
         return ""
 
-    def solve(
-        self: "Solution", part1: bool = True, part2: bool = True
-    ) -> tuple[str, str]:
+    def solve(self: "Solution", part1: bool = True, part2: bool = True) -> tuple[str, str]:
         self._logger.info(f"Solving for day {self._day}")
         parse_start = time.time()
         parsed_data = self._parse_data(self._get_input_data())
@@ -120,7 +118,7 @@ class Solution(ABC, Generic[ParsedAoCData]):
                 prev_answers1 = self._answers1_path.read_text().splitlines()
             else:
                 prev_answers1 = []
-            if not str(self._solution_part1) in prev_answers1:
+            if str(self._solution_part1) not in prev_answers1:
                 response = requests.post(
                     url=answer_url,
                     cookies=self._session_token,
@@ -136,15 +134,13 @@ class Solution(ABC, Generic[ParsedAoCData]):
                 prev_answers1.append(str(self._solution_part1))
                 self._answers1_path.write_text("\n".join(prev_answers1))
             else:
-                self._logger.warning(
-                    "Answer for part 1 already given, not submitting again!"
-                )
+                self._logger.warning("Answer for part 1 already given, not submitting again!")
         if self._solution_part2:
             if self._answers2_path.exists():
                 prev_answers2 = self._answers2_path.read_text().splitlines()
             else:
                 prev_answers2 = []
-            if not str(self._solution_part2) in prev_answers2:
+            if str(self._solution_part2) not in prev_answers2:
                 response = requests.post(
                     url=answer_url,
                     cookies=self._session_token,
@@ -160,9 +156,7 @@ class Solution(ABC, Generic[ParsedAoCData]):
                 prev_answers2.append(str(self._solution_part2))
                 self._answers2_path.write_text("\n".join(prev_answers2))
             else:
-                self._logger.warning(
-                    "Answer for part 2 already given, not submitting again!"
-                )
+                self._logger.warning("Answer for part 2 already given, not submitting again!")
 
     def _check_answer(self: "Solution", response_text: str) -> None:
         if "That's the right answer" in response_text:
@@ -176,9 +170,7 @@ class Solution(ABC, Generic[ParsedAoCData]):
         template_path = Path(__file__).parent / "template.md"
         with open(template_path, "r") as file:
             template = file.read()
-        day_readme_path = (
-            Path(__file__).parent / f"../days/day{str(self._day).zfill(2)}/README.md"
-        )
+        day_readme_path = Path(__file__).parent / f"../days/day{str(self._day).zfill(2)}/README.md"
         with open(day_readme_path, "r") as file:
             day_text = file.readlines()
         page_description = day_text[0].replace("## ", "")
@@ -198,15 +190,9 @@ class Solution(ABC, Generic[ParsedAoCData]):
             )
         day_experience = sys.modules[self.__module__].__doc__
         aoc_part1_text, aoc_part2_text = day_text_string.split("> ### Part 2")
-        aoc_parse_code = self._clean_code_for_md(
-            inspect.getsourcelines(self._parse_data)[0]
-        )
-        aoc_part1_code = self._clean_code_for_md(
-            inspect.getsourcelines(self._solve_part1)[0]
-        )
-        aoc_part2_code = self._clean_code_for_md(
-            inspect.getsourcelines(self._solve_part2)[0]
-        )
+        aoc_parse_code = self._clean_code_for_md(inspect.getsourcelines(self._parse_data)[0])
+        aoc_part1_code = self._clean_code_for_md(inspect.getsourcelines(self._solve_part1)[0])
+        aoc_part2_code = self._clean_code_for_md(inspect.getsourcelines(self._solve_part2)[0])
         replace_dict = {
             "<page_title>": page_title,
             "<page_description>": page_description,
@@ -235,9 +221,7 @@ class Solution(ABC, Generic[ParsedAoCData]):
             "(on [GitHub](https://github.com/GeertLitjens/advent-of-code-2023) as well) "
             "for the different days:\n\n"
         )
-        for day_md in range(
-            len(os.listdir(Path(__file__).parent / "../../../docs/days"))
-        ):
+        for day_md in range(len(os.listdir(Path(__file__).parent / "../../../docs/days"))):
             toc_text += f"* [Day {day_md + 1}](./days/day{day_md + 1}.md)\n"
         toc_path.write_text(toc_text)
 
